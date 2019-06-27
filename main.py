@@ -44,12 +44,7 @@ def send_alert(target):
     server = smtplib.SMTP_SSL(alert_server, alert_server_port)
     server.login(alert_sender_user, alert_sender_pswd)
 
-    root = target.split("/")[2]
-
-    body =  "<div style='margin:auto;'><table style='font-family: arial; color: #111; line-height: 1.25em;'><tr><td style='padding:1em; background-color: #f99;'>" \
-           + "<b>" + root.upper() + " </b>" \
-           + " has stopped recording." \
-           + "</td></tr></table></div>"
+    body =  "Insert message here."
 
     message = MIMEText(body, 'html')
     message['From'] = alert_sender
