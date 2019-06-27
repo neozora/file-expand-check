@@ -3,11 +3,19 @@ import glob
 import time
 
 time_gap = 5 # secs
-target = "//tv3/RECORD/*"
+source = "target_list.txt"
 
-files = glob.glob(target)
-latest_file = max(files, key=os.path.getctime)
 
+def list_targets(source):
+    with open(source) as f:
+        lines = f.readlines()
+
+
+def get_latest(target):
+    files = glob.glob(target)
+    latest_file = max(files, key=os.path.getctime)
+    print(latest_file)
+    return latest_file
 
 
 def get_size(file):
@@ -23,9 +31,11 @@ def get_diff(target):
 
     return size_final - size_initial
 
+
 def main():
-    print(get_diff(target))
     
+    for target in targets:
+        print(get_diff(target))
 
 if __name__== "__main__":
     main()
