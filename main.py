@@ -15,6 +15,7 @@ alert_sender = os.environ['ALERT_SENDER']
 alert_sender_user = os.environ['ALERT_SENDER_USER']
 alert_sender_pswd = os.environ['ALERT_SENDER_PSWD']
 
+
 def list_targets(source):
     with open(source) as f:
         return f.read().splitlines()
@@ -37,21 +38,25 @@ def get_diff(target):
 
     return size_final - size_initial
 
-def send_alert():
+
+def send_alert(target):
 
     print("Sending alert")
     
     server = smtplib.SMTP_SSL(alert_server, alert_server_port)
     server.login(alert_sender_user, alert_sender_pswd)
 
+    root = target.split("/")[0]
+
     body =  "<div style='margin:auto;'><table style='font-family: arial; color: #111; line-height: 1.25em;'><tr><td style='padding:1em; background-color: #f99;'>" \
-           + "<b>Something </b>" \
+           + "<b>" + root.upper() + " </b>" \
            + " has stopped recording." \
            + "</td></tr></table></div>"
-    #print(body)
+
+    body = "test"
+
     message = MIMEText(body, 'html')
     message['From'] = alert_sender
-    #message['To'] = neo + "," + neo2
     message['To'] = alert_recipient
     message['Subject'] = "TV Recording Alert"
 
@@ -69,7 +74,7 @@ def main():
         print("Diff: ", diff)
 
         if diff == 0:
-            send_alert()
+            send_alert(target)
 
 
 if __name__ == "__main__":
