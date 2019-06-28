@@ -5,20 +5,16 @@ import smtplib
 from email.mime.text import MIMEText
 
 time_gap = 5
-source = "target_list.txt"
-targets = []
+targets = []  # Insert a list of target folders.
 
-alert_server = os.environ['ALERT_SERVER']
-alert_server_port = os.environ['ALERT_SERVER_PORT']
-alert_recipient = os.environ['ALERT_RECIPIENT']
-alert_sender = os.environ['ALERT_SENDER']
+alert_server = "Insert mail server address."
+alert_server_port = "Insert server port as Int."
+alert_recipient = "Insert recipient e-mail address."
+alert_sender = "Insert sender e-mail."
 alert_sender_user = os.environ['ALERT_SENDER_USER']
 alert_sender_pswd = os.environ['ALERT_SENDER_PSWD']
-
-
-def list_targets(source):
-    with open(source) as f:
-        return f.read().splitlines()
+alert_subject = "Insert alert subject."
+alert_body = "Insert message body."
 
 
 def get_latest(target):
@@ -44,19 +40,15 @@ def send_alert(target):
     server = smtplib.SMTP_SSL(alert_server, alert_server_port)
     server.login(alert_sender_user, alert_sender_pswd)
 
-    body =  "Insert message here."
-
-    message = MIMEText(body, 'html')
+    message = MIMEText(msg_body, 'html')
     message['From'] = alert_sender
     message['To'] = alert_recipient
-    message['Subject'] = "Recording Alert"
+    message['Subject'] = alert_subject
 
     server.send_message(message)
 
 
 def main():
-
-    targets = list_targets(source)
 
     for target in targets:
         file = get_latest(target)
